@@ -8,10 +8,10 @@ Seeed Studio MR60FDA2 60GHz mmWave Fall Detection Sensor Kit
 Component/Hub
 -------------
 
-The ``seeed_mr60fda2`` platform allows you to use Seeed Studio MR60FDA2 60GHz mmWave Fall Detection Sensor Kit with XIAO ESP32C6 (`Product Page <https://www.seeedstudio.com/MR60FDA2-60GHz-mmWave-Sensor-Fall-Detection-Module-p-5946.html>`__) with ESPHome.
+The ``seeed_mr60fda2`` platform allows you to use Seeed Studio's MR60FDA2 60GHz mmWave Fall Detection Sensor Kit with XIAO ESP32C6 (`Product Page <https://www.seeedstudio.com/MR60FDA2-60GHz-mmWave-Sensor-Fall-Detection-Module-p-5946.html>`__) with ESPHome.
 
 The :ref:`UART <uart>` is required to be set up in your configuration for this sensor to work, ``parity`` and ``stop_bits`` **must be** respectively ``NONE`` and ``1``.
-You can use the ESP32 software or hardware serial to use this MR60FDA2, its default baud rate is 115200.
+You can use the ESP32 software or hardware (recommended) serial to use the MR60FDA2; its default baud rate is 115200.
 
 .. figure:: images/seeed_mr60fda2.jpg
     :align: center
@@ -35,7 +35,7 @@ Configuration variables:
 Binary Sensor
 -------------
 
-The ``seeed_mr60fda2`` binary sensor allows you to perform different measurements.
+The ``seeed_mr60fda2`` binary sensor allows you to determine the presence of a human.
 
 .. code-block:: yaml
 
@@ -43,12 +43,16 @@ The ``seeed_mr60fda2`` binary sensor allows you to perform different measurement
       - platform: seeed_mr60fda2
         people_exist:
           name: "Person Information"
+        fall_detected:
+          name: "Falling Detected"
 
 Configuration variables:
 ************************
 
-- **people_exist** (*Optional*): If true target detected, otherwise no target.
+- **people_exist** (*Optional*): If true when target (person) is detected.
   All options from :ref:`Binary Sensor <config-binary_sensor>`.
+- **fall_detected** (*Optional*): An indication of whether the radar has detected a fall.
+  All options from :ref:`Text Sensor <config-text_sensor>`.
 
 Button
 ------
@@ -61,37 +65,19 @@ The ``seeed_mr60fda2`` button allows you to perform actions.
       - platform: seeed_mr60fda2
         get_radar_parameters:
           name: "Get Radar Parameters"
-        reset_radar:
+        factory_reset:
           name: "Reset"
 
 Configuration variables:
 ************************
 
-- **reset_radar**: Restore all radar settings to factory parameters. All options from :ref:`Button <config-button>`.
+- **factory_reset**: Restore all radar settings to factory parameters. All options from :ref:`Button <config-button>`.
 - **get_radar_parameters**: Get all the current setup parameters of the radar.
   All options from :ref:`Button <config-button>`.
 
 
-Text Sensor
------------
-
-The ``seeed_mr60fda2`` text sensor allows you to get information about your device.
-
-.. code-block:: yaml
-
-    text_sensor:
-      - platform: seeed_mr60fda2
-        is_fall:
-          name: "Falling Information"
-
-Configuration variables:
-************************
-
-- **is_fall** (*Optional*): Fall status indication.
-  All options from :ref:`Text Sensor <config-text_sensor>`.
-
 Select
------------
+------
 
 The ``seeed_mr60fda2`` select allows you to control the configuration.
 
