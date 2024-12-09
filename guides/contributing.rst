@@ -105,7 +105,7 @@ Build
 
 .. note::
 
-    The easiest way is to use the `esphome-docs container image <ghcr.io/esphome/esphome-docs/>`__:
+    The easiest way is to use the `esphome-docs container image <https://ghcr.io/esphome/esphome-docs/>`__:
 
     .. code-block:: bash
 
@@ -194,6 +194,8 @@ adhere to the following order:
       - The length of the bar below the text **must** match the title text length.
       - Section titles should use Title Case.
 
+.. _contributing-links:
+
 - **Links**: To create a link to an external resource (for example https://www.google.com), use
   ``\`Link text <link_url>\`__``. For example:
 
@@ -202,6 +204,13 @@ adhere to the following order:
       `Google.com <https://www.google.com>`__
 
   `Google.com <https://www.google.com>`__
+
+.. _contributing-referrals:
+
+  .. note::
+
+      Referral links are only permitted if they provide a direct benefit to the ESPHome project.
+      This policy applies to all official ESPHome documentation and websites.
 
 - **References**: To reference another document, use the ``:doc:`` and ``:ref:`` roles (references are set up globally
   and can be used between documents):
@@ -250,6 +259,165 @@ adhere to the following order:
   .. note::
 
       Note that a blank line is *required* after every ``code-block`` directive.
+
+- **Collapsible section**: To add a collapsible section, use the ``collapse`` directive:
+
+  .. code-block:: rst
+
+      .. collapse:: Details
+
+          Something small enough to escape casual notice.
+
+  .. collapse:: Details
+
+      Something small enough to escape casual notice.
+
+  .. code-block:: rst
+
+      .. collapse:: A long code block
+
+          .. code-block:: yaml
+
+              # Sample configuration entry
+              switch:
+                - platform: gpio
+                  name: "Relay #42"
+                  pin: GPIOXX
+
+  .. collapse:: A long code block
+
+      .. code-block:: yaml
+
+          # Sample configuration entry
+          switch:
+            - platform: gpio
+              name: "Relay #42"
+              pin: GPIOXX
+
+  The ``:open:`` flag can be used to have the section open by default.
+
+  .. code-block:: rst
+
+      .. collapse:: Open
+          :open:
+
+          This section is open by default.
+
+  .. collapse:: Open
+      :open:
+
+      This section is open by default.
+
+  .. note::
+
+      - The ``:open:`` flag must immediately follow the ``collapse`` directive without a blank line between them.
+      - A blank line is *required* after every ``collapse`` directive.
+
+- **Tabs**: To group content into tabs, use the ``tabs`` directive. The tabs directive defines a tab set.
+  Basic tabs are added using the ``tab`` directive (without s), which takes the tab’s label as an argument:
+
+  .. code-block:: rst
+
+      .. tabs::
+
+          .. tab:: Apples
+
+              Apples are green, or sometimes red.
+
+          .. tab:: Pears
+
+              Pears are green.
+
+          .. tab:: Oranges
+
+              Oranges are orange.
+
+  This will appear as
+
+  .. tabs::
+
+      .. tab:: Apples
+
+          Apples are green, or sometimes red.
+
+      .. tab:: Pears
+
+          Pears are green.
+
+      .. tab:: Oranges
+
+          Oranges are orange.
+
+  Tabs can also be nested inside one another:
+
+  .. code-block:: rst
+
+      .. tabs::
+
+          .. tab:: Stars
+
+              .. tabs::
+
+                  .. tab:: The Sun
+
+                      The closest star to us.
+
+                  .. tab:: Proxima Centauri
+
+                      The second closest star to us.
+
+                  .. tab:: Polaris
+
+                      The North Star.
+
+          .. tab:: Moons
+
+              .. tabs::
+
+                  .. tab:: The Moon
+
+                      Orbits the Earth
+
+                  .. tab:: Titan
+
+                      Orbits Jupiter
+
+  .. tabs::
+
+      .. tab:: Stars
+
+          .. tabs::
+
+              .. tab:: The Sun
+
+                  The closest star to us.
+
+              .. tab:: Proxima Centauri
+
+                  The second closest star to us.
+
+              .. tab:: Polaris
+
+                  The North Star.
+
+      .. tab:: Moons
+
+          .. tabs::
+
+              .. tab:: The Moon
+
+                  Orbits the Earth
+
+              .. tab:: Titan
+
+                  Orbits Jupiter
+
+  .. note::
+
+      - A blank line is *required* after every ``tabs`` directive.
+      - The contents of each tab can be displayed by clicking on the tab that you wish to show.
+        Clicking again on the tab that is currently open will hide its content, leaving only the tab set labels visible.
+      - For advanced features like tab-groupings, refer to https://sphinx-tabs.readthedocs.io/en/latest/
 
 - **Images**: Use the ``figure`` directive to display an image:
 
@@ -336,7 +504,7 @@ adhere to the following order:
 
   Because these images are served on the main page, they need to be compressed heavily. SVGs are preferred over JPGs
   and JPGs should be no more than 300x300px.
-  
+
   If you have imagemagick installed, you can use this command to convert the thumbnail:
 
   .. code-block:: bash
@@ -618,6 +786,8 @@ For this reason, you'll periodically want to update your local ``dev`` branch. A
 
 Note that you can use this procedure for other branches, too, such as ``next`` or ``current`` from ``esphome-docs``.
 
+.. _force_push:
+
 .. warning::
 
     Using ``git rebase`` will result in your changes having to be *force-pushed* back up to GitHub.
@@ -703,7 +873,7 @@ and the ESPHome core will copy them with no additional code required by the comp
 
     ESPHome also has a ``custom_components`` mechanism like `Home Assistant does
     <https://developers.home-assistant.io/docs/creating_component_index>`__. Note, however, that
-    **custom componenets are deprecated** in favor of :doc:`/components/external_components`.
+    **custom components are deprecated** in favor of :doc:`/components/external_components`.
 
 .. _config_validation:
 
@@ -849,7 +1019,10 @@ ESPHome's "custom component" mechanism is a holdover from Home Assistant's featu
 :doc:`/components/external_components` and offered a way to "hack in" support for devices which were not officially
 supported by ESPHome.
 
-ESPHome has since deprecated this feature in favor of :doc:`/components/external_components` for several reasons:
+Why are Custom Components Deprecated?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+There are several reasons for this change.
 
 - Custom components are very fragile:
 
@@ -858,14 +1031,16 @@ ESPHome has since deprecated this feature in favor of :doc:`/components/external
     resulting in compiler errors, unexpected behavior and/or crashes.
   - Custom components are difficult to use. You have to manually copy all of the custom component's files into *just
     the right location* on your system or else you will receive compiler errors and the component won't work.
-  - Custom components almost always require C++ code changes when you want them to work even *slightly* differently
-    than the original author intended.
+  - Custom components lack flexibility and almost always require C++ code changes when you want them to work even
+    *slightly* differently than the original author intended/designed. For example, a simple change of input units
+    (``cm`` to ``m``, for example) could require significant changes to the C++ code, depending on how the original
+    author designed the custom component.
 
 - :doc:`/components/external_components` initially require a bit more effort by the developer but are ultimately more
-  robust and easier to use and share:
+  robust and are easier to use and share:
 
   - Just like any other ESPHome component/platform:
-  
+
     - They are configured entirely in YAML.
     - Their YAML configuration is validated.
 
@@ -876,7 +1051,8 @@ ESPHome has since deprecated this feature in favor of :doc:`/components/external
 
   - They tend to be more flexible since they are configured in YAML (as opposed to editing C++ code to make changes).
 
-**So what is the difference between custom components and** :doc:`/components/external_components`?
+What's the Difference?
+^^^^^^^^^^^^^^^^^^^^^^
 
 Custom components are typically (more or less) just the :ref:`runtime` part of an ESPHome component/platform. On the
 other hand, :doc:`/components/external_components` are just like any other ESPHome component -- the only difference is
@@ -889,6 +1065,9 @@ In terms of implementation, custom components just lack the Python part of an ES
 
 As such, most custom components can be made into :doc:`/components/external_components` simply by adding the required
 Python parts to make the custom component into a proper, complete ESPHome component.
+
+What's Next?
+^^^^^^^^^^^^
 
 We encourage all custom component developers to extend their custom component(s) into proper
 :doc:`/components/external_components`; doing so will make your custom component easier to share and use. As you do so,
