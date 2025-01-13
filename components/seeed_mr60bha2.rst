@@ -41,13 +41,13 @@ The ``seeed_mr60bha2`` binary sensor allows you to determine the presence of a h
 
     binary_sensor:
       - platform: seeed_mr60bha2
-        people_exist:
+        has_target:
           name: "Person Information"
 
 Configuration variables:
 ************************
 
-- **people_exist** (*Optional*): If true when target (person) is detected.
+- **has_target** (*Optional*): If true when target (person) is detected.
   All options from :ref:`Binary Sensor <config-binary_sensor>`.
 
 Sensor
@@ -65,7 +65,7 @@ The ``seeed_mr60bha2`` sensor allows you to perform different measurements.
           name: "Real-time heart rate"
         distance:
           name: "Distance to detection object"
-        target_num:
+        num_targets:
           name: "Target number"
 
 Configuration variables:
@@ -77,7 +77,7 @@ Configuration variables:
   All options from :ref:`Sensor <config-sensor>`.
 - **distance** (*Optional*, float): Straight-line distance between the radar and the monitoring object.
   All options from :ref:`Sensor <config-sensor>`.
-- **target_num** (*Optional*, int): The number of target detected by the radar.
+- **num_targets** (*Optional*, int): The number of target detected by the radar.
   All options from :ref:`Sensor <config-sensor>`.
 
 
